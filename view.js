@@ -10,11 +10,10 @@ var View = (function(){
   }
 
   var setListeners = function() {
-    // not working....
     console.log('listeners');
-    $('#board').keydown( function(e) {
-      console.log('hi');
-      //transmitMove(e.which);
+    $(document).keydown( function(e) {
+      //console.log(e.which)
+      _transmitMove(e.which);
     } );
   }
 
@@ -69,7 +68,7 @@ var View = (function(){
   // public methods
   return {
     init: init,
-    render: render
+    render: render,
   }
   
 })()

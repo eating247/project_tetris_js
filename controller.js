@@ -3,30 +3,35 @@
 var Controller = (function(){
 
   var init = function() {
-    Model.init();
-    var blocks = Model.getBlocks();
-    View.init(transmitMove)
-    View.render(blocks);
-
-    setInterval( function(){ 
-      console.log('hello')
-      View.render(blocks);
-      Model.incrementBlocks() }, 50);
+    Model.newBlock();
+    View.init(transmitMove);
   }
-  // model
-  //create blocks with randomized positions (x positions along 30px intervals)
 
-  // view
-  // render 
+  var loop = setInterval( function(){
+      var blocks = Model.getBlocks();
+      View.render(blocks);
+      Model.refresh(); 
+      checkGameOver();
+       }, 100);
 
   var transmitMove = function(key){
     Model.registerMove(key);
   }
 
+  var checkGameOver = function() {
+    if (Model.gameOver() ) {
+      clearInterval(loop);
+      console.log('GAME OVER!!!!!')
+    }
+  }
+
   return {
-    init: init
+    init: init,
+    loop: loop
   }
   
 })()
+
+// clearInterval(Controller.loop);
 
 $( document ).ready( function(){ Controller.init() } );
