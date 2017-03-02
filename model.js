@@ -1,13 +1,12 @@
-// var TETRIS = TETRIS || {};
+var TETRIS = TETRIS || {};
 
-var Model = (function(){
+TETRIS.Model = (function(){
 
   var refresh = function() {
-    var current = getCurrentPiece();
-    // console.log(current);
-    incrementPiece(current);
-    checkPosition(current);
-    clearRows();
+    var current = _getCurrentPiece();
+    _incrementPiece(current);
+    _checkPosition(current);
+    _clearRows();
   }
 
   var blocks = [];
@@ -16,13 +15,11 @@ var Model = (function(){
     return blocks;
   }
 
-  var getCurrentPiece = function() {
+  var _getCurrentPiece = function() {
     return blocks.slice(0, 4);
   }
 
-//// new pieces
-
-  var pieceTypes = ['square', 
+  var _pieceTypes = ['square', 
                     'bar', 
                     'leftL', 
                     'rightL', 
@@ -32,29 +29,29 @@ var Model = (function(){
   var newPiece = function() {
     // randomly select type of piece
     var i = Math.floor(Math.random() * 6);
-    switch (pieceTypes[i]) {
+    switch (_pieceTypes[i]) {
       case 'square':
-        squarePiece();
+        _squarePiece();
         break;
       case 'bar':
-        barPiece();
+        _barPiece();
         break;
       case 'leftL':
-        leftLPiece();
+        _leftLPiece();
         break;
       case 'rightL':
-        rightLPiece();
+        _rightLPiece();
         break;
       case 'leftS':
-        leftSPiece();
+        _leftSPiece();
         break;
       case 'rightS':
-        rightSPiece();
+        _rightSPiece();
         break;
     }
   }
 
-  var squarePiece = function() {
+  var _squarePiece = function() {
     var colorID = Math.floor(Math.random() * 4);
     var xVal = Math.floor(Math.random() * 9);
     var newBlock = [];
@@ -67,7 +64,7 @@ var Model = (function(){
     blocks = newBlock.concat(blocks);
   }
 
-  var barPiece = function() {
+  var _barPiece = function() {
     var colorID = Math.floor(Math.random() * 4);
     var x = Math.floor(Math.random() * 10);
     var newBlock = [];
@@ -80,7 +77,7 @@ var Model = (function(){
     blocks = newBlock.concat(blocks);
   }
 
-  var leftLPiece = function() {
+  var _leftLPiece = function() {
     var colorID = Math.floor(Math.random() * 4);
     var x = Math.floor(Math.random() * 9);
     var newBlock = [];
@@ -93,7 +90,7 @@ var Model = (function(){
     blocks = newBlock.concat(blocks);
   }
 
-  var rightLPiece = function() {
+  var _rightLPiece = function() {
     var colorID = Math.floor(Math.random() * 4);
     var x = Math.floor(Math.random() * 9);
     var newBlock = [];
@@ -106,7 +103,7 @@ var Model = (function(){
     blocks = newBlock.concat(blocks);
   }
 
-  var leftSPiece = function() {
+  var _leftSPiece = function() {
     var colorID = Math.floor(Math.random() * 4);
     var x = Math.floor(Math.random() * 9);
     var newBlock = [];
@@ -119,7 +116,7 @@ var Model = (function(){
     blocks = newBlock.concat(blocks);
   }
 
-  var rightSPiece = function() {
+  var _rightSPiece = function() {
     var colorID = Math.floor(Math.random() * 4);
     var x = Math.floor(Math.random() * 9);
     var newBlock = [];
@@ -132,12 +129,8 @@ var Model = (function(){
     blocks = newBlock.concat(blocks);
   }
 
-
-///// new pieces
-
-
-  var incrementPiece = function(current) {
-    if ( pieceProceeding(current) ) { 
+  var _incrementPiece = function(current) {
+    if ( _pieceProceeding(current) ) { 
       current.forEach(function(block) {
         block.y++
       });
@@ -146,7 +139,7 @@ var Model = (function(){
     }
   }
 
-  var pieceProceeding = function(piece) {
+  var _pieceProceeding = function(piece) {
     var proceeding = true
     piece.forEach(function(block) {
       if (!block.proceed) {
@@ -156,7 +149,7 @@ var Model = (function(){
     return proceeding;
   }
 
-  var blockAt = function(x, y) {
+  var _blockAt = function(x, y) {
     var result;
     for (var i = 0; i < blocks.length; i++) {
       if (blocks[i].proceed === false && blocks[i].x === x && blocks[i].y === y) {
@@ -169,91 +162,80 @@ var Model = (function(){
     return result;
   }
 
-  var checkPosition = function(current) {
-    if ( pieceProceeding(current) && reachedObstacle(current) ) {
-      stopPiece(current);
+  var _checkPosition = function(current) {
+    if ( _pieceProceeding(current) && _reachedObstacle(current) ) {
+      _stopPiece(current);
       newPiece();
     }
   }
 
-  var reachedObstacle = function(current) {
-    // var bottomBlocks = getBottomBlocks(current);
+  var _reachedObstacle = function(current) {
     var stop = false;
     current.forEach(function(block) {
-      if ( block.y === 19 || blockAt(block.x, block.y+1) ) {
+      if ( block.y === 19 || _blockAt(block.x, block.y+1) ) {
         stop = true;
       }
     });
     return stop;
   }
 
-  var getBottomBlocks = function(current) {
-    var bottomBlocks = [];
-    current.forEach(function(block) {
-      if (block.bottom) { bottomBlocks.push(block) };
-    });
-    return bottomBlocks;
-  }
-
-  var stopPiece = function(current) {
+  var _stopPiece = function(current) {
     current.forEach(function(block) {
       block.proceed = false;
     });
   }
 
-  var pieceDown = function(current) {
-    if ( pieceProceeding(current) ) { 
-      while ( checkPieceBelow(current) ) {
-        pieceIncrementDown(current);
+  var _pieceDown = function(current) {
+    if ( _pieceProceeding(current) ) { 
+      while ( _checkPieceBelow(current) ) {
+        _pieceIncrementDown(current);
       }
     }
-    stopPiece(current);
+    _stopPiece(current);
   }
 
-  var checkPieceBelow = function(current) {
+  var _checkPieceBelow = function(current) {
     var clear = true;
     current.forEach(function(bl) {
-      if ( bl.y === 19 || blockAt(bl.x, bl.y+1) ) {
+      if ( bl.y === 19 || _blockAt(bl.x, bl.y+1) ) {
         clear = false;
       }
     });
     return clear;
   }
 
-  var pieceIncrementDown = function(current) {
+  var _pieceIncrementDown = function(current) {
     current.forEach(function(block) {
       block.y++
     });
   }
 
-  var pieceLeft = function(current) {
-    console.log('left')
-    if ( checkPieceLeft(current) ) {
+  var _pieceLeft = function(current) {
+    if ( _checkPieceLeft(current) ) {
       current.forEach( function(block) {block.x--} );
     }
   }
 
-  var checkPieceLeft = function(current) {
+  var _checkPieceLeft = function(current) {
     var status = true;
     current.forEach(function(block) {
-    if ( block.x === 0 || blockAt(block.x-1, block.y)) {
+    if ( block.x === 0 || _blockAt(block.x-1, block.y)) {
       status = false;
     }
     });
     return status;
   }
 
-  var pieceRight = function(current) {
-    console.log('right')
-    if ( checkPieceRight(current) ) {
+  var _pieceRight = function(current) {
+    if ( _checkPieceRight(current) ) {
       current.forEach( function(block) {block.x++} );
     }
   }
 
-  var checkPieceRight = function(current) {
+  var _checkPieceRight = function(current) {
     var status = true;
     current.forEach(function(block) {
-      if ( block.x === 9 || blockAt(block.x+1, block.y) ) {
+      if ( block.x === 9 || _blockAt(block.x+1, block.y) ) {
         status = false;
       }
     });
@@ -261,31 +243,26 @@ var Model = (function(){
   }
 
   var registerMove = function(key) {
-    var current = getCurrentPiece();
+    var current = _getCurrentPiece();
     switch(key) {
-      case 37:
-        //left
-        pieceLeft(current);
+      case 37: // left
+        _pieceLeft(current);
         break;
-      case 39:
-        //right
-        pieceRight(current);
+      case 39: // right
+        _pieceRight(current);
         break;
-      case 40:
-        //down arrow
-        pieceDown(current);
+      case 40: // down arrow
+        _pieceDown(current);
         break;
-      case 32:
-        // space bar
-        pieceDown(current);
+      case 32: // space bar
+        _pieceDown(current);
         break;
-      case 38:
-        //up
+      case 38: // rotate
         break;
     }
   }
 
-  var blocksOf = function(row) {
+  var _blocksOf = function(row) {
     var relevant = [];
     blocks.forEach(function(block){
       if (block.y === row && !block.proceed) {
@@ -295,44 +272,43 @@ var Model = (function(){
     return relevant;
   }
 
-  var deleteRow = function(row) {
+  var _deleteRow = function(row) {
     for (var i = 0; i < row.length; i++) {
       var index = blocks.indexOf(row[i]);
       blocks.splice(index, 1);
     }
   }
 
-  var incrementRow = function(row) {
+  var _incrementRow = function(row) {
     row.forEach(function(block) {
       block.y++;
     })
   }
 
-  var adjustRows = function(deletedRows) {
+  var _adjustRows = function(deletedRows) {
     var rowAbove;
     deletedRows.forEach(function(row) {
       for(var i = row; i >= 0; i--) {
-        rowAbove = blocksOf(i);
-        incrementRow(rowAbove);
+        rowAbove = _blocksOf(i);
+        _incrementRow(rowAbove);
       }
     });
   }
 
-  var clearRows = function() {
+  var _clearRows = function() {
     var row;
     var deletedRows = [];
     for (var i = 19; i >= 0; i--) {
-      row = blocksOf(i);
+      row = _blocksOf(i);
       if ( row.length === 10 ) {
-        deleteRow(row);
+        _deleteRow(row);
         deletedRows.push(i);
       }
     }
-    if ( deletedRows.length ) { adjustRows(deletedRows) };
+    if ( deletedRows.length ) { _adjustRows(deletedRows) };
   }
 
   var gameOver = function() {
-    // if piece at top and not moving? vs. if piece at top and there's a block below it
     var result = false;
     blocks.forEach(function(block){
       if (!block.proceed && block.y === 0) { result = true }

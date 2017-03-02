@@ -1,22 +1,21 @@
-// var TETRIS = TETRIS || {};
+var TETRIS = TETRIS || {};
 
-var View = (function(){
+TETRIS.View = (function(){
 
   var _transmitMove;
 
   var init = function(transmitMove) {
     _transmitMove = transmitMove;
-    setListeners();
+    _setListeners();
   }
 
-  var setListeners = function() {
-    console.log('listeners');
+  var _setListeners = function() {
     $(document).keydown( function(e) {
       _transmitMove(e.which);
     } );
   }
 
-  var renderGrid = function(ctx) {
+  var _renderGrid = function(ctx) {
     for (var x = 30; x < 300; x += 30) {
       ctx.moveTo(x, 0);
       ctx.lineTo(x, 600);
@@ -32,14 +31,14 @@ var View = (function(){
 
   var colors = ['#104547', '#5B2E48', '#AF929D', '#D2D6EF']
 
-  var renderBoard = function(ctx) {
+  var _renderBoard = function(ctx) {
     ctx.beginPath();
     ctx.fillStyle = '#fafafa';
     ctx.fillRect(0, 0, 300, 600);
     ctx.closePath();
   }
 
-  var renderBlocks = function(ctx, blocks) {
+  var _renderBlocks = function(ctx, blocks) {
     blocks.forEach(function(block){
       ctx.beginPath();
       ctx.fillStyle = colors[block.colorID];
@@ -56,12 +55,11 @@ var View = (function(){
     var canvas = $('#board').get(0);
     var ctx = canvas.getContext('2d');
     
-    renderBoard(ctx);
-    renderBlocks(ctx, blocks);
-    renderGrid(ctx);
+    _renderBoard(ctx);
+    _renderBlocks(ctx, blocks);
+    _renderGrid(ctx);
   }
 
-  // public methods
   return {
     init: init,
     render: render,

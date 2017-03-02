@@ -4,7 +4,3 @@ function Block(colorID, x, y) {
   this.y = y;
   this.proceed = true;
 };
-
-function Piece() {
-  this.blocks = [];
-};

@@ -1,40 +1,36 @@
-// var TETRIS = TETRIS || {};
+var TETRIS = TETRIS || {};
 
-var Controller = (function(){
+TETRIS.Controller = (function(){
 
   var init = function() {
-    Model.newPiece();
-    // console.log(Model.getBlocks())
-    View.init(transmitMove);
+    TETRIS.Model.newPiece();
+    TETRIS.View.init(transmitMove);
   }
 
-  var loop = setInterval( function(){
-      var blocks = Model.getBlocks();
-      View.render(blocks);
-      Model.refresh(); 
-      checkGameOver();
+  var _loop = setInterval( function(){
+      var blocks = TETRIS.Model.getBlocks();
+      TETRIS.View.render(blocks);
+      _checkGameOver();
+      TETRIS.Model.refresh(); 
        }, 100);
 
   var transmitMove = function(key){
-    Model.registerMove(key);
+    TETRIS.Model.registerMove(key);
   }
 
-  var checkGameOver = function() {
-    // refactor gameover
-    if ( Model.gameOver() ) {
-      clearInterval(loop);
-      View.gameOver();
-      console.log('GAME OVER!!!!!')
+  var _checkGameOver = function() {
+    if ( TETRIS.Model.gameOver() ) {
+      clearInterval(_loop);
+      TETRIS.View.gameOver();
     }
   }
 
   return {
-    init: init,
-    loop: loop
+    init: init
   }
   
 })()
 
 // clearInterval(Controller.loop);
 
-$( document ).ready( function(){ Controller.init() } );
+$( document ).ready( function(){ TETRIS.Controller.init() } );
