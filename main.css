@@ -1,4 +1,9 @@
 #board {
+  display: inline-block;
   border: 3px solid gray;
   background-color: #fafafa;
+}
+
+.over {
+  color: red;
 }

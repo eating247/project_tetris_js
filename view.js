@@ -48,6 +48,10 @@ var View = (function(){
     });
   }
 
+  var gameOver = function() {
+    $('h1').addClass('over');
+  }
+
   var render = function(blocks) {
     var canvas = $('#board').get(0);
     var ctx = canvas.getContext('2d');
@@ -61,6 +65,7 @@ var View = (function(){
   return {
     init: init,
     render: render,
+    gameOver: gameOver
   }
   
 })()

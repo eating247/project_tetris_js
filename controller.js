@@ -23,6 +23,7 @@ var Controller = (function(){
     // refactor gameover
     if ( Model.gameOver() ) {
       clearInterval(loop);
+      View.gameOver();
       console.log('GAME OVER!!!!!')
     }
   }
