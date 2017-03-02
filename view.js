@@ -12,7 +12,6 @@ var View = (function(){
   var setListeners = function() {
     console.log('listeners');
     $(document).keydown( function(e) {
-      //console.log(e.which)
       _transmitMove(e.which);
     } );
   }
@@ -31,9 +30,7 @@ var View = (function(){
     ctx.stroke();
   }
 
-  // var colors = ['#66ffff', '#80ffd4', '#ff9999', '#ffb3ff']
-
-  var colors = ['black', 'blue', 'green', 'red']
+  var colors = ['#104547', '#5B2E48', '#AF929D', '#D2D6EF']
 
   var renderBoard = function(ctx) {
     ctx.beginPath();
@@ -43,16 +40,12 @@ var View = (function(){
   }
 
   var renderBlocks = function(ctx, blocks) {
-
     blocks.forEach(function(block){
       ctx.beginPath();
       ctx.fillStyle = colors[block.colorID];
-      ctx.fillRect(block.x*30, block.y*30, block.sideLength, block.sideLength);
-      // ctx.strokeStyle = 'white';
-      // ctx.strokeRect(block.x*30, block.y, block.sideLength, block.sideLength);
+      ctx.fillRect(block.x*30, block.y*30, 30, 30);
       ctx.closePath();      
     });
-
   }
 
   var render = function(blocks) {
@@ -60,7 +53,6 @@ var View = (function(){
     var ctx = canvas.getContext('2d');
     
     renderBoard(ctx);
-
     renderBlocks(ctx, blocks);
     renderGrid(ctx);
   }

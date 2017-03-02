@@ -3,7 +3,8 @@
 var Controller = (function(){
 
   var init = function() {
-    Model.newBlock();
+    Model.newPiece();
+    // console.log(Model.getBlocks())
     View.init(transmitMove);
   }
 
@@ -19,7 +20,8 @@ var Controller = (function(){
   }
 
   var checkGameOver = function() {
-    if (Model.gameOver() ) {
+    // refactor gameover
+    if ( Model.gameOver() ) {
       clearInterval(loop);
       console.log('GAME OVER!!!!!')
     }
