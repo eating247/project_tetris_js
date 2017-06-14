@@ -150,13 +150,11 @@ TETRIS.Model = (function(){
   }
 
   var _blockAt = function(x, y) {
-    var result;
+    var result = false;
     for (var i = 0; i < blocks.length; i++) {
       if (blocks[i].proceed === false && blocks[i].x === x && blocks[i].y === y) {
         result = true;
         break;
-      } else {
-        result = false;
       }
     }
     return result;
